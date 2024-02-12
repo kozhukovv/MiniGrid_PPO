@@ -10,5 +10,5 @@ pip install -e .
 ## Install pre-commit
 
 ```shell
-make pre-commit-install
+make prepare-git-repo
 ```
