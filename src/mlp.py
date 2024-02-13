@@ -147,19 +147,19 @@ if __name__ == "__main__":
     args.batch_size = int(args.num_envs * args.num_steps)
     args.minibatch_size = int(args.batch_size // args.num_minibatches)
     args.num_iterations = args.total_timesteps // args.batch_size
-    run_name = f"{args.env_id}__{args.exp_name}__{args.seed}__{int(time.time())}"
-    # if args.track:
-    #     import wandb
+    run_name = f"{args.env_id}__{args.exp_name}__{args.num_steps}__{args.ent_coef}__{args.seed}__{int(time.time())}"
+    if args.track:
+        import wandb
 
-    #     wandb.init(
-    #         project=args.wandb_project_name,
-    #         entity=args.wandb_entity,
-    #         sync_tensorboard=True,
-    #         config=vars(args),
-    #         name=run_name,
-    #         monitor_gym=True,
-    #         save_code=True,
-    #     )
+        wandb.init(
+            project=args.wandb_project_name,
+            entity=args.wandb_entity,
+            sync_tensorboard=True,
+            config=vars(args),
+            name=run_name,
+            monitor_gym=True,
+            save_code=True,
+        )
     writer = SummaryWriter(f"runs/{run_name}")
     writer.add_text(
         "hyperparameters",
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     # env setup
 
     envs = gym.vector.SyncVectorEnv(
-        [make_env(args.env_id, i, args.capture_video, run_name, args.gamma) for i in range(args.num_envs)],
+        [make_env(args.env_id, i, args.capture_video, run_name, args.gamma, args.num_steps) for i in range(args.num_envs)],
     )
 
     assert isinstance(action_space, gym.spaces.Discrete), "only discrete action space is supported"

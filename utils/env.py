@@ -80,13 +80,13 @@ class RewardBonus(Wrapper):
 
         return obs, reward, terminated, truncated, info
 
-def make_env(env_id, idx, capture_video, run_name, gamma):
+def make_env(env_id, idx, capture_video, run_name, gamma, max_steps):
     def thunk():
         if capture_video and idx == 0:
-            env = gym.make(env_id, render_mode="rgb_array", max_steps=500, max_episode_steps=500)
+            env = gym.make(env_id, render_mode="rgb_array", max_steps=max_steps, max_episode_steps=max_steps)
             # env = ViewSizeWrapper(env, agent_view_size=3)
             print(env.metadata["render_fps"])
-            env = gym.wrappers.RecordVideo(env=env, video_folder=f"videos/{run_name}", episode_trigger=lambda x: x % 50 == 0.0 ) #, episode_trigger=lambda x: x % 50 == 0.0 )
+            env = gym.wrappers.RecordVideo(env=env, video_folder=f"videos/{run_name}", episode_trigger=lambda x: x % 20 == 0.0 ) #, episode_trigger=lambda x: x % 50 == 0.0 )
         else:
             env = gym.make(env_id)
         env = RewardBonus(env, gamma)

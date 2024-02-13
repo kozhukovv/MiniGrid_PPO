@@ -1,0 +1,11 @@
+version: 1.0.0
+
+services:
+  data_generator:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    runtime: nvidia
+    volumes:
+      - ../runs:/app/runs
+      - ../videos:/app/videos

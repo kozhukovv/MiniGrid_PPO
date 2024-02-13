@@ -195,7 +195,7 @@ if __name__ == "__main__":
     # env setup
 
     envs = gym.vector.SyncVectorEnv(
-        [make_env(args.env_id, i, args.capture_video, run_name, args.gamma) for i in range(args.num_envs)],
+        [make_env(args.env_id, i, args.capture_video, run_name, args.gamma, args.num_steps) for i in range(args.num_envs)],
     )
 
     assert isinstance(action_space, gym.spaces.Discrete), "only discrete action space is supported"
